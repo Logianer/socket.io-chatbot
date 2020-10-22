@@ -9,7 +9,7 @@ Press F12 to see the console!
   socket.on('new message', (data) => {
     data.message = data.message.toLowerCase().split(" ")
     if (data.message[0] == "!help") {
-      socket.emit('new message', "!ping: Ping the bot; !howareyou: Sends the mood of the bot; !cool <name>: Says, that <name> is cool; !matrix <num>: gives you <num> 5-digit random numbers;           Source code: https:")
+      socket.emit('new message', "!ping: Ping the bot; !howareyou: Sends the mood of the bot; !cool <name>: Says, that <name> is cool; !matrix <num>: gives you <num> 5-digit random numbers;")
     }
     if (data.message[0] == "!ping") {
       socket.emit('new message', `Pong, ${data.username}!`);
