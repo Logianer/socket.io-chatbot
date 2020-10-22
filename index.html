@@ -29,19 +29,5 @@ Press F12 to see the console!
       }
     }
   });
-  socket.on("user joined", (data) => {
-    socket.emit('new message', `Welcome ${data.username}! Nice to see you!`);
-  })
-  $("#send").click(function(e) {
-    e.preventDefault();
-    var data = {
-      name: $("#InputName").val(),
-      pw: $("#Token").val()
-    }
-    socket.emit("whitelist", data)
-  });
-  socket.on("reload", function(data) {
-    window.location.reload()
-  })
   </script>
   </html>
