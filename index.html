@@ -1,0 +1,47 @@
+<html>
+Press F12 to see the console!
+<script src="https://socketio-chat-h9jt.herokuapp.com/socket.io/socket.io.js"></script>
+  <script>
+  var socket = io("https://socketio-chat-h9jt.herokuapp.com")
+  socket.emit('add user', "bot007");
+  //socket.emit('new message', "Bot On! ");
+  var feelings = ["I'm happy.", "Good, how are you?", "You need friends! Seriously!", "I'm fantastic.", "I'm sad.", "I'm feeling mad!", "I'm tired."]
+  socket.on('new message', (data) => {
+    data.message = data.message.toLowerCase().split(" ")
+    if (data.message[0] == "!help") {
+      socket.emit('new message', "!ping: Ping the bot; !howareyou: Sends the mood of the bot; !cool <name>: Says, that <name> is cool; !matrix <num>: gives you <num> 5-digit random numbers;           Source code: https:")
+    }
+    if (data.message[0] == "!ping") {
+      socket.emit('new message', `Pong, ${data.username}!`);
+    }
+    if (data.message[0] == "!howareyou") {
+      socket.emit('new message', feelings[Math.floor(Math.random() * feelings.length)]);
+    }
+    if (data.message[0] == "!cool") {
+      if (!data.message[1]) return;
+      socket.emit('new message', `${data.username} says: ${data.message[1]} is cool`);
+    }
+    if (data.message[0] == "!matrix") {
+      if (!data.message[1]) return;
+      socket.emit('new message', `Here are some random numbers:`);
+      for (var i = 0; i < Math.floor(data.message[1]); i++) {
+        socket.emit('new message', Math.floor(Math.random() * (99999 - 10000) + 10000));
+      }
+    }
+  });
+  socket.on("user joined", (data) => {
+    socket.emit('new message', `Welcome ${data.username}! Nice to see you!`);
+  })
+  $("#send").click(function(e) {
+    e.preventDefault();
+    var data = {
+      name: $("#InputName").val(),
+      pw: $("#Token").val()
+    }
+    socket.emit("whitelist", data)
+  });
+  socket.on("reload", function(data) {
+    window.location.reload()
+  })
+  </script>
+  </html>
